@@ -1,0 +1,6 @@
+机器开机后一直卡在android动画,
+发现zygote有多次异常退出,找到第一次退出 <14>[    4.072847] init: Service 'zygote' (pid 645) exited with status 0,
+然后在logcat出现了 I ServiceManager: service 'netd' died,其它没有看到很明显的异常.
+照理,机器是可以正常启动的,后面查出来是进入了ffbm模式
+<5>[    0.000000] Kernel command line: rcupdate.rcu_expedited=1 androidboot.selinux=permissive console=ttyMSM0,115200,n8 androidboot.console=ttyMSM0 earlycon=msm_serial_dm,0xc1b0000 androidboot.selinux=permissive androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 sched_enable_hmp=1 sched_enable_power_aware=1 service_locator.enable=1 swiotlb=2048 androidboot.configfs=true androidboot.usbcontroller=a800000.dwc3 buildvariant=userdebug veritykeyid=id:7e4333f9bba00adfe0ede979e28ed1920492b40f root=/dev/dm-0 dm="system none ro,0 1 android-verity /dev/sda6" androidboot.verifiedbootstate=green androidboot.keymaster=1  androidboot.veritymode=enforcing androidboot.bootdevice=1da4000.ufshc androidboot.serialno=d0a767d8 androidboot.mode=ffbm-00 quite androidboot.baseband=msm mdss_mdp.panel=1:dsi:0:qcom,mdss_dsi_jdi_a564a_dsc_wqxga_video:config0:1:qcom,mdss_dsi_auo_video:cfg:dual_dsi secureboot_enabled=1 androidboot.slot_suffix=_a skip_initramfs rootwait<6>[    0.000000] device-mapper: init: will configure 1 devices
+这是高通的一个定制功能,将此功能去掉后正常.
